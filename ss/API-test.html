@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <link rel="icon" type="image/png" href="../asset/favicon.ico">
+    <!-- Google Map API & Places-->
+    <script defer src=
+    "https://maps.googleapis.com/maps/api/js?key=AIzaSyDlwvrWTGYvMchhjcIBhjbFGGnS65FO9Yg&libraries=places"
+    ></script>
+    <!-- Font Awesome 5 & CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="API-test.css">
+</head>
+<body>
+    <nav>
+        <ul class="navbar">
+            <li class="nav-items">WhatsNearMe</li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="search-box">
+            <div class="from-loc">
+                <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                <input class="search" id="start" placeholder="Starting Location"></input>
+            </div>
+
+            <div class="to-loc">
+                <span class="icon"><i class="fas fa-flag"></i></span>
+                <input class="search" id="target" placeholder="Target Facilities"></input>
+            </div>
+
+            <button id="search"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="map" id="map"></div>
+        <div class="result-bar"></div>
+    </div>
+    <script src="API-test.js" defer></script>
+</body>
+</html>
+<!-- <i class="fas fa-running"></i> -->

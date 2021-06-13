@@ -1,0 +1,105 @@
+/* Import Font from Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root{
+    --navbar-color: lightskyblue;
+    --navbar-height: 50px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Roboto", "Calibri", sans-serif;
+}
+
+.container{
+    width: 100vw;
+    height: calc(100vh - var(--navbar-height));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.map{
+    width: 100vw;
+    height: 100%;
+}
+
+.map-marker{
+    position: relative;
+    top: -25px;
+    font-family: inherit;
+}
+
+.navbar{
+    width: 100%;
+    height: var(--navbar-height);
+    background-color: var(--navbar-color);
+    list-style-type: none;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-items{
+    font-size: 20px;
+}
+
+.result-bar{
+    width: 400px;
+    height: 100%;
+    background-color: khaki;
+}
+
+.search-box{
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    width: 300px;
+    height: 90px;
+    border: 2px solid black;
+    background-color: aliceblue;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.from-loc{
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    padding: 5px 8px;
+}
+
+.to-loc{
+    display: flex;
+    align-items: center;
+    font-size: 19px;
+    padding: 5px 8px;
+}
+
+.search{
+    width: 200px;
+    height: 25px;
+    margin-left: 10px;
+    font-family: inherit;
+    font-size: 16px;
+    background: inherit;
+    border: 2px solid rgb(49, 114, 211);
+}
+
+#search{
+    position: absolute;
+    top: 20px;
+    left: 245px;
+    background: turquoise;
+    border: none;
+    padding: 12px;
+    border-radius: 50%;
+    font-size: 20px;
+}

@@ -1,0 +1,262 @@
+/* Import Font from Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root{
+    --bg-color: rgba(217, 255, 217, 0.9);
+    --soft-color: rgb(116, 228, 135);
+    --darker-color: rgb(0, 146, 24);
+    --tag-bg-color: rgb(198, 255, 190);
+    --tag-active-bg-color: rgb(133, 255, 52);
+    --result-area-bg-color: rgba(145, 228, 159, 0.9);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::selection{
+    background: rgb(49, 223, 90);
+}
+
+body{
+    background: var(--bg-color);
+    font-family: "Noto Serif TC";
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.form-container{
+    position: absolute;
+    opacity: 1;
+    /* height: 0;
+    overflow: hidden; */
+    width: 100vw;
+    background: var(--bg-color);
+    z-index: 2;
+    transition: opacity 0.5s linear;
+}
+
+/* Part A: Start Position */
+.form-container > .part-one{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.part-one > .input-field{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-field > .locate{
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.input-field > .locate:hover{
+    color: var(--darker-color);
+}
+
+#autocomplete{
+    width: 85vw;
+    max-width: 1000px;
+    background: inherit;
+    border: 2px solid var(--darker-color);
+    padding: 3px 5px;
+    margin-right: 5px;
+    font-family: inherit;
+}
+
+/* Part B: Select target facilities type */
+.form-container > .part-two{
+    background: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.places-type{
+    position: relative;
+    margin: 15px 0;
+}
+
+.places-head{
+    width: 90vw;
+    height: 30px;
+    padding: 3px 8px;
+    background-color: var(--darker-color);
+    color: rgb(209, 255, 203);
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+}
+
+.part-two [type="checkbox"]{
+    /* A hidden checkbox to expand & hide the place menu */
+    position: absolute;
+    top: 0;
+    width: 90vw;
+    height: 30px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.places-menu{
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    max-height: 0px;
+    width: 90vw;
+    overflow: hidden;
+    background-color: var(--soft-color);
+    transition: max-height 0.35s ease;
+}
+
+.places{
+    height: 35px;
+    padding: 0 10px;
+    margin: 10px;
+    border-radius: 20px;
+    border: 2px solid var(--darker-color);
+    background-color: var(--tag-bg-color);
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.places.active{
+    background-color: var(--tag-active-bg-color);
+}
+
+/* The submit button */
+#search{
+    background: inherit;
+    font-family: inherit;
+    color: var(--darker-color);
+    border: 3px solid var(--darker-color);
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px 50px;
+}
+
+#search:active{ transform: scale(0.97); }
+
+
+
+
+/* The map & result area */
+.ui-container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+#map{
+    width: 100%;
+    height: 100%;
+    flex: 7;
+}
+
+#result-area{
+    height: 100vh;
+    background-color: var(--result-area-bg-color);
+    flex: 3;
+}
+
+.view-toggle{
+    display: none;
+}
+
+.status{
+    text-align: center;
+    padding-top: 5px;
+    font-size: 26px;
+}
+
+.result{
+    padding: 10px;
+    border-top: 1px solid var(--darker-color);
+}
+
+.result > *{
+    margin: 5px 0;
+}
+
+.result-name{
+    font-size: 20px;
+}
+
+.result-address{
+    color: #444;
+    font-size: 12px;
+}
+
+.result i{
+    padding-right: 5px;
+    font-size: 18px;
+    color: var(--darker-color);
+}
+
+.result-name ~ *{
+    padding-left: 10px;
+}
+
+.result-toolbar{
+    display: flex;
+}
+
+.result-toolbar > *{
+    display: flex;
+    align-items: center;
+    color: #000;
+    text-decoration: none;
+    padding: 5px;
+    margin: 5px;
+    border: 2px solid var(--darker-color);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.result-toolbar > *:active{
+    transform: scale(0.97);
+}
+
+@media (max-width: 600px){
+    #result-area{
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+        height: auto;
+        max-height: 90vh;
+        transition: max-height 0.3s linear;
+    }
+
+    #result-area.hidden{
+        max-height: 0;
+    }
+
+    .view-toggle{
+        content: "^";
+        display: block;
+        position: absolute;
+        top: -24px;
+        left: 50vw;
+        transform: translate(-50%,0);
+        width: 40px;
+        height: 24px;
+        background-color: var(--darker-color);
+        text-align: center;
+        color: white;
+        cursor: pointer;
+    }
+
+    .result-address{
+        font-size: 14px;
+    }
+}

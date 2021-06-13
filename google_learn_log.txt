@@ -1,0 +1,19 @@
+12/6/2021:
+<< classList.contain() >>
+    Check if class exist in an element
+
+<< encodeURIComponent() >>
+    Translate string to URL compatible characters (idk why it is URI)
+
+9/6/2021:
+<< data attributes >>
+    In HTML, tags can have its data attribute to store additional data
+    For example, if there are many clickable student buttons, data attributes can store their SID
+
+    The data attribute itself will not do anything, but javaScript can assess it
+    By "var.dataset.customName", the data written in it can be retrieved
+
+    Example:
+    HTML:  <div class="places" data-query="public library">圖書館</div>
+    JavaScript:  element.dataset.query ==> "public library"
+    CSS: content: attr(data-query);
