@@ -163,6 +163,13 @@ body{
     flex: 7;
 }
 
+.map-marker{
+    position: relative;
+    top: -40px;
+    font-weight: 700;
+    background: #eee;
+}
+
 #result-area{
     height: 100vh;
     background-color: var(--result-area-bg-color);

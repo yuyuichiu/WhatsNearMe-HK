@@ -37,11 +37,18 @@ let initMap = function(){
 }()
 
 // Function to create add a marker to map
-let addMarker = function(placeInfo){
+let addMarker = function(placeInfo, styleIndex){
+    let iconStyles = ["assets/pin-start.png","assets/pin-green.png","assets/pin-orange.png","assets/pin-pink.png"]
+    let targetIcon = iconStyles[styleIndex];
+
     let newMarker = new google.maps.Marker({
         position: placeInfo.geometry,
         map: map,
-        label: { text: placeInfo.name },
+        icon: targetIcon,
+        label: {
+            text: placeInfo.name,
+            className: "map-marker",
+        },
         animation: google.maps.Animation.DROP,
     })
 
@@ -100,7 +107,8 @@ typeOptions.forEach((option) => {
 })
 
 // Toggle ON/OFF of visibility of the result bar (mobile)
-viewToggle.addEventListener('click', () => {
+viewToggle.addEventListener('click', toggleResult);
+function toggleResult(){
     if(resultArea.classList.contains('hidden')){
         viewToggle.innerHTML = `<i class="fas fa-chevron-down"></i>`;
     } else {
@@ -108,7 +116,7 @@ viewToggle.addEventListener('click', () => {
     }
 
     resultArea.classList.toggle('hidden');
-})
+}
 
 // The submit button
 searchBtn.addEventListener('click', () => {
@@ -150,6 +158,7 @@ function startPlacesSearch(){
             let coordinates = info.results[0].geometry.location;
             // Adjust center of the map
             map.setCenter(coordinates);
+            addMarker({ name: '起點', geometry: coordinates },0);
 
             // Goes on to part B -- the Search
             searchNearbyPlaces(coordinates);
@@ -189,7 +198,7 @@ function searchNearbyPlaces(coord){
             placeInfo.url = `https://www.google.com/maps/dir/?api=1&origin=${parsedAddress}&destination=${placeInfo.geometry.lat}%2C${placeInfo.geometry.lng}&destination_place_id=${placeInfo.id}&travelmode=transit`;
 
             // Create marker for that place with collected information
-            addMarker(placeInfo);
+            addMarker(placeInfo, i+1);
             displayResult(placeInfo, i+1);
         }
     })
@@ -201,17 +210,18 @@ function displayResult(placeInfo, index){
     result.classList.add('result');
     result.innerHTML = `
         <div class="result-name">${index}. ${placeInfo.name}</div>
-        <div class="result-address"><i class="fas fa-map-marker-alt"></i>${placeInfo.address}</div>
+        <div class="result-address"><i class="fas fa-map-marker-alt" style="color: ${[,'#E9B821','#E029AB'][index-1]};"></i>${placeInfo.address}</div>
         <div class="result-toolbar">
             <div class="result-viewmap"><i class="fas fa-street-view"></i>移至坐標</div>
             <a href="${placeInfo.url}" class="result-toGoogleMap" target="_blank">
-                <img src="googleMapIcon.png" width="24px" height="24px">
+                <img src="assets/googleMapIcon.png" width="24px" height="24px">
                 &nbsp;Google Map路線
             </a>
         </div>
     `;
 
     result.querySelector(".result-viewmap").addEventListener('click', function(){
+        toggleResult();
         map.setCenter(placeInfo.geometry);
         map.setZoom(18);
     });

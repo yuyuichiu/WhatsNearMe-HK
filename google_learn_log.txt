@@ -1,3 +1,8 @@
+14/6/2021:
+<< :nth-of-child >>
+    to select n-th item of same type in container
+    cannot be applied to different individual components
+
 12/6/2021:
 << classList.contain() >>
     Check if class exist in an element
