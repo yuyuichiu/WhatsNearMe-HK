@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>附近邊度有？ | 地點搜尋工具</title>
-    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="icon" type="image/png" href="assets/icon.png">
     <!-- Bootstrap 5.0.1 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Google Map API & Places-->
@@ -38,10 +38,10 @@
                 <input type="checkbox">
 
                 <div class="places-menu">
-                    <div class="places" data-query="public library">圖書館</div>
+                    <div class="places" data-type="library">圖書館</div>
                     <div class="places">社區會堂</div>
-                    <div class="places" data-query="museum">博物館</div>
-                    <div class="places" data-query="movie theater">戲院</div>
+                    <div class="places" data-type="museum">博物館</div>
+                    <div class="places" data-type="movie_theater">戲院</div>
                     <div class="places">大會堂</div>
                 </div>
             </div>
@@ -54,13 +54,13 @@
                 <input type="checkbox">
 
                 <div class="places-menu">
-                    <div class="places" data-query="stadium">體育館</div>
-                    <div class="places">游泳池</div>
-                    <div class="places">足球場</div>
-                    <div class="places">籃球場</div>
-                    <div class="places">欖球場</div>
-                    <div class="places" data-query="bowling alley">保齡球場</div>
-                    <div class="places" data-query="gym">健身中心</div>
+                    <div class="places" data-type="stadium">體育館</div>
+                    <div class="places" data-type="swimming pool">游泳池</div>
+                    <div class="places" data-type="足球場">足球場</div>
+                    <div class="places" data-type="籃球場">籃球場</div>
+                    <div class="places" data-type="欖球場">欖球場</div>
+                    <div class="places" data-type="bowling_alley">保齡球場</div>
+                    <div class="places" data-type="gym">健身中心</div>
                 </div>
             </div>
 
@@ -72,10 +72,10 @@
                 <input type="checkbox">
 
                 <div class="places-menu">
-                    <div class="places" data-query="park">公園</div>
-                    <div class="places" data-query="dog park">狗公園</div>
-                    <div class="places" data-query="beach">泳灘</div>
-                    <div class="places" data-query="post office">郵政局</div>
+                    <div class="places" data-type="park">公園</div>
+                    <div class="places" data-type="dog_park">狗公園</div>
+                    <div class="places" data-type="beach">泳灘</div>
+                    <div class="places" data-type="post_office">郵政局</div>
                 </div>
             </div>
 
@@ -88,10 +88,10 @@
 
                 <div class="places-menu">
                     <div class="places" data-query="鐵站">鐵路站</div>
-                    <div class="places" data-query="taxi stand">的士站</div>
-                    <div class="places" data-query="taxi stand">巴士站</div>
-                    <div class="places" data-query="gas stand">加油站</div>
-                    <div class="places" data-query="car park">停車場</div>
+                    <div class="places" data-type="taxi_stand">的士站</div>
+                    <div class="places" data-type="bus_station">巴士站</div>
+                    <div class="places" data-type="gas_stand">加油站</div>
+                    <div class="places" data-type="car_park">停車場</div>
                 </div>
             </div>
 
@@ -104,18 +104,18 @@
 
                 <div class="places-menu">
                     <div class="places" data-type="bank">銀行</div>
-                    <div class="places" data-type="hair care|salon">剪髮鋪</div>
+                    <div class="places" data-type="hair_care|salon">剪髮鋪</div>
                     <div class="places" data-query="街市">街市</div>
                     <div class="places" data-type="supermarket">超級市場</div>
                     <div class="places" data-type="laundry">洗衣店</div>
-                    <div class="places" data-type="book store">書店</div>
+                    <div class="places" data-type="book_store">書店</div>
                     <div class="places" data-type="convenience_store">便利店</div>
                     <div class="places" data-type="department_store">百貨店</div>
                     <div class="places" data-type="pet_store">寵物店</div>
                     <div class="places" data-type="florist">花店</div>
                     <div class="places" data-type="hardware_store">五金鋪</div>
                     <div class="places" data-type="furniture_store">傢私鋪</div>
-                    <div class="places" data-type="electronic store">電器鋪</div>
+                    <div class="places" data-type="electronic_store">電器鋪</div>
                 </div>
             </div>
 
@@ -128,8 +128,8 @@
 
                 <div class="places-menu">
                     <div class="places" data-query="Mcdonald">麥當勞</div>
-                    <div class="places">KFC</div>
-                    <div class="places">Starbucks</div>
+                    <div class="places" data-query="KFC">KFC</div>
+                    <div class="places" data-query="Starbucks">Starbucks</div>
                 </div>
             </div>
 
@@ -141,8 +141,8 @@
                 <input type="checkbox">
 
                 <div class="places-menu">
-                    <div class="places" data-query="tourist attraction">旅遊勝地</div>
-                    <div class="places" data-query="lodging">住宿</div>
+                    <div class="places" data-type="tourist_attraction">旅遊勝地</div>
+                    <div class="places" data-type="lodging">住宿</div>
                 </div>
             </div>
 
