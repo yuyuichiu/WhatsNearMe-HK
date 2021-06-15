@@ -1,3 +1,13 @@
+15/6/2021:
+<< Scroll to specific location >>
+    Method:
+        window.scrollTo(x,y)   [ numeric x + y values ]
+    Obtain window height / width:
+        window.innerHeight   (width for x, height for y)
+
+    (++) document current scroll height
+        document.documentElement.scrollTop
+
 14/6/2021:
 << :nth-of-child >>
     to select n-th item of same type in container

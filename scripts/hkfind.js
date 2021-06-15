@@ -1,5 +1,6 @@
-var map, autocomplete, parsedAddress, service, query, queryType;
+let map, autocomplete, parsedAddress, service, query, queryType, coordinates;
 let results = [];
+let markers = [];
 
 const searchForm = document.getElementById('search-form');
 const searchBtn = document.getElementById('search');
@@ -7,6 +8,8 @@ const menuTogglers = document.querySelectorAll(".part-two [type='checkbox']");
 const typeOptions = [...document.querySelectorAll(".places")];
 const resultArea = document.getElementById("result-area");
 const viewToggle = document.querySelector(".view-toggle");
+const focusStartBtn = document.getElementById("focus-start");
+const searchAgainBtn = document.getElementById("search-again");
 
 
 
@@ -26,12 +29,17 @@ let initAutoComplete = function(){
 
     // The autocomplete object
     autocomplete = new google.maps.places.Autocomplete(input,options);       
+
+    autocomplete.addListener('place_changed',() => {
+        // Scroll down once user has chosen a location through autocomplete
+        window.scrollTo(0,window.innerHeight);
+    })
 }()
 
 // Construct a google map to our map element
 let initMap = function(){
     map = new google.maps.Map(document.getElementById("map"),{
-        center: { lat: 22.46555, lng: 114.00294 },
+        center: { lat: 22.2860, lng: 114.1915 },
         zoom: 15,
     })
 }()
@@ -50,12 +58,14 @@ let addMarker = function(placeInfo, styleIndex){
             className: "map-marker",
         },
         animation: google.maps.Animation.DROP,
-    })
+    });
 
     newMarker.addListener("click", () => {
         // Redirects and opens a new tab of the link
         window.open(placeInfo.url,"_blank");
-    })
+    });
+
+    markers.push(newMarker);
 }
 
 // Create the places services
@@ -66,6 +76,7 @@ service = new google.maps.places.PlacesService(map);
 
 
 /* Form UI functionality */
+
 // places menu show/hide (The first one is opened initially)
 function toggleMenu(target){
     let menu = target.nextElementSibling;
@@ -118,8 +129,45 @@ function toggleResult(){
     resultArea.classList.toggle('hidden');
 }
 
+// Make map focus to start location when focus-start is clicked
+focusStartBtn.addEventListener('click',() => {
+    map.setCenter(coordinates);
+    map.setZoom(15);
+});
+
+// Restart another new search
+searchAgainBtn.addEventListener('click', () => {
+    // Clear current search result & markers
+    autocomplete
+    resultArea.querySelectorAll('.result').forEach((result) => { result.remove(); })
+    markers.forEach((mark) => { mark.setMap(null); });
+    markers = [];
+
+    // Show the form
+    searchForm.style.opacity = 1;
+    searchForm.style.display = "block";
+})
+
+// Loading
+function loadingStart(targetElement){
+    let displayLoading = document.createElement('div');
+    displayLoading.classList.add('loading');
+
+    targetElement.appendChild(displayLoading);
+}
+
+function loadingEnd(targetElement){
+    targetElement.querySelector(".loading").remove();
+}
+
 // The submit button
-searchBtn.addEventListener('click', () => {
+searchBtn.addEventListener('click', searchButtonPressed);
+document.addEventListener('keydown', (e) => {
+    if(e.key === "Enter" && !searchBtn.classList.contains('hidden')){
+        searchButtonPressed(); }
+})
+
+function searchButtonPressed(){
     // Validations
     let address = document.getElementById('autocomplete').value;
     if(!query || !address){ return }
@@ -132,7 +180,17 @@ searchBtn.addEventListener('click', () => {
     
     // Engage the search
     startPlacesSearch();
-});
+    loadingStart(resultArea);
+}
+
+// Show the submit button when user scrolled to part B of the form
+document.addEventListener('scroll',function(){
+    let currentScrollY = document.documentElement.scrollTop;
+    let triggerY = window.innerHeight*0.8;
+
+    if(currentScrollY > triggerY){ searchBtn.classList.remove('hidden'); } 
+    else { searchBtn.classList.add('hidden'); }
+})
 
 
 
@@ -155,7 +213,7 @@ function startPlacesSearch(){
                 return
             }
 
-            let coordinates = info.results[0].geometry.location;
+            coordinates = info.results[0].geometry.location;
             // Adjust center of the map
             map.setCenter(coordinates);
             addMarker({ name: '起點', geometry: coordinates },0);
@@ -182,6 +240,7 @@ function searchNearbyPlaces(coord){
     }, function(output){
         if(!output.length){
             console.log("ZERO RESULTS AT PLACE SEARCH");
+            loadingEnd(resultArea);
             return
         }
 
@@ -201,6 +260,7 @@ function searchNearbyPlaces(coord){
             addMarker(placeInfo, i+1);
             displayResult(placeInfo, i+1);
         }
+        loadingEnd(resultArea);
     })
 }
 

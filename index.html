@@ -33,16 +33,55 @@
             <div class="places-type">
                 <div class="places-head">
                     <i class="fas fa-bars"></i>&nbsp;
-                    <label>文娛場所</label>
+                    <label>泛用商務（例如：銀行、街市等）</label>
                 </div>
                 <input type="checkbox">
 
                 <div class="places-menu">
-                    <div class="places" data-type="library">圖書館</div>
-                    <div class="places">社區會堂</div>
-                    <div class="places" data-type="museum">博物館</div>
-                    <div class="places" data-type="movie_theater">戲院</div>
-                    <div class="places">大會堂</div>
+                    <div class="places" data-type="bank">銀行</div>
+                    <div class="places" data-type="hair_care|salon">剪髮鋪</div>
+                    <div class="places" data-type="街市">街市</div>
+                    <div class="places" data-type="supermarket">超級市場</div>
+                    <div class="places" data-type="laundry">洗衣店</div>
+                    <div class="places" data-type="book_store">書店</div>
+                    <div class="places" data-type="convenience_store">便利店</div>
+                    <div class="places" data-type="department_store">百貨店</div>
+                    <div class="places" data-type="pet_store">寵物店</div>
+                    <div class="places" data-type="florist">花店</div>
+                    <div class="places" data-type="hardware_store">五金鋪</div>
+                    <div class="places" data-type="furniture_store">傢私鋪</div>
+                    <div class="places" data-type="electronic_store">電器鋪</div>
+                </div>
+            </div>
+
+            <div class="places-type">
+                <div class="places-head">
+                    <i class="fas fa-bars"></i>&nbsp;
+                    <label>運輸/公共交通</label>
+                </div>
+                <input type="checkbox">
+
+                <div class="places-menu">
+                    <div class="places" data-type="mtr">鐵路站</div>
+                    <div class="places" data-type="taxi_stand">的士站</div>
+                    <div class="places" data-type="bus_station">巴士站</div>
+                    <div class="places" data-type="gas_stand">加油站</div>
+                    <div class="places" data-type="car_park">停車場</div>
+                </div>
+            </div>
+
+            <div class="places-type">
+                <div class="places-head">
+                    <i class="fas fa-bars"></i>&nbsp;
+                    <label>公共設施</label>
+                </div>
+                <input type="checkbox">
+
+                <div class="places-menu">
+                    <div class="places" data-type="park">公園</div>
+                    <div class="places" data-type="dog_park">狗公園</div>
+                    <div class="places" data-type="beach">泳灘</div>
+                    <div class="places" data-type="post_office">郵政局</div>
                 </div>
             </div>
 
@@ -67,55 +106,16 @@
             <div class="places-type">
                 <div class="places-head">
                     <i class="fas fa-bars"></i>&nbsp;
-                    <label>公共設施</label>
+                    <label>文娛場所</label>
                 </div>
                 <input type="checkbox">
 
                 <div class="places-menu">
-                    <div class="places" data-type="park">公園</div>
-                    <div class="places" data-type="dog_park">狗公園</div>
-                    <div class="places" data-type="beach">泳灘</div>
-                    <div class="places" data-type="post_office">郵政局</div>
-                </div>
-            </div>
-
-            <div class="places-type">
-                <div class="places-head">
-                    <i class="fas fa-bars"></i>&nbsp;
-                    <label>運輸/公共交通</label>
-                </div>
-                <input type="checkbox">
-
-                <div class="places-menu">
-                    <div class="places" data-query="鐵站">鐵路站</div>
-                    <div class="places" data-type="taxi_stand">的士站</div>
-                    <div class="places" data-type="bus_station">巴士站</div>
-                    <div class="places" data-type="gas_stand">加油站</div>
-                    <div class="places" data-type="car_park">停車場</div>
-                </div>
-            </div>
-
-            <div class="places-type">
-                <div class="places-head">
-                    <i class="fas fa-bars"></i>&nbsp;
-                    <label>泛用商務（例如：銀行、街市等）</label>
-                </div>
-                <input type="checkbox">
-
-                <div class="places-menu">
-                    <div class="places" data-type="bank">銀行</div>
-                    <div class="places" data-type="hair_care|salon">剪髮鋪</div>
-                    <div class="places" data-query="街市">街市</div>
-                    <div class="places" data-type="supermarket">超級市場</div>
-                    <div class="places" data-type="laundry">洗衣店</div>
-                    <div class="places" data-type="book_store">書店</div>
-                    <div class="places" data-type="convenience_store">便利店</div>
-                    <div class="places" data-type="department_store">百貨店</div>
-                    <div class="places" data-type="pet_store">寵物店</div>
-                    <div class="places" data-type="florist">花店</div>
-                    <div class="places" data-type="hardware_store">五金鋪</div>
-                    <div class="places" data-type="furniture_store">傢私鋪</div>
-                    <div class="places" data-type="electronic_store">電器鋪</div>
+                    <div class="places" data-type="library">圖書館</div>
+                    <div class="places">社區會堂</div>
+                    <div class="places" data-type="museum">博物館</div>
+                    <div class="places" data-type="movie_theater">戲院</div>
+                    <div class="places">大會堂</div>
                 </div>
             </div>
 
@@ -158,18 +158,20 @@
                     <div class="places" data-query="embassy">大使館</div>
                 </div>
             </div>
-
-
-            <button id="search">開始搜索</button>
         </div>
+
+        <button id="search" class="hidden">開始搜索</button>
     </div>
 
     <div class="ui-container">
         <div id="map"></div>
         <div id="result-area">
             <div class="view-toggle"><i class="fas fa-chevron-down"></i></div>
-
             <div id="status" class="status">地方搜尋結果</div>
+            <div class="result-action">
+                <span id="focus-start"><i class="fas fa-street-view"></i>&nbsp;移至起點</span>
+                <span id="search-again"><i class="fas fa-redo-alt"></i>&nbsp;更改搜尋</span>
+            </div>
         </div>
     </div>
 
