@@ -17,6 +17,9 @@ const startLocationCheckbox = document.getElementById("save-start");
 
 
 
+
+
+
 /* Initial setups */
 // Implement Auto Complete into the starting location input field
 let initAutoComplete = function(){
@@ -224,12 +227,13 @@ function startPlacesSearch(){
     parsedAddress = encodeURIComponent(address);
 
     // Translate address to coordinates through Geocoding API
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${parsedAddress}&components=country:hk&key=AIzaSyDlwvrWTGYvMchhjcIBhjbFGGnS65FO9Yg`)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${parsedAddress}&components=country:hk&key=AIzaSyBRzIkLqS59M_6neW0HHrGfv_eFdrJqK2E`)
         .then(data => data.json())
         .then((info) => {
             if(info.status !== "OK"){
                 // Failure cases
                 console.log("Something went wrong: " + info.status);
+                console.log(info);
                 return
             }
 
