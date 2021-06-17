@@ -24,6 +24,10 @@
                 <input type="text" id="autocomplete" placeholder="請選擇你的出發地點（中英地址皆可）">
                 <i class="fas fa-map-marker-alt locate"></i>
             </div>
+            <div class="local-save-field">
+                <input type="checkbox" id="save-start">
+                <label for="save-start">於瀏覽器記住上次出發地點</label>
+            </div>
         </div>
 
         <div class="part-two">
@@ -39,18 +43,20 @@
 
                 <div class="places-menu">
                     <div class="places" data-type="bank">銀行</div>
-                    <div class="places" data-type="hair_care|salon">剪髮鋪</div>
                     <div class="places" data-type="街市">街市</div>
                     <div class="places" data-type="supermarket">超級市場</div>
+                    <div class="places" data-type="convenience_store">便利店</div>
                     <div class="places" data-type="laundry">洗衣店</div>
                     <div class="places" data-type="book_store">書店</div>
-                    <div class="places" data-type="convenience_store">便利店</div>
+                    <div class="places" data-type="hair_care|salon">理髮店</div>
                     <div class="places" data-type="department_store">百貨店</div>
-                    <div class="places" data-type="pet_store">寵物店</div>
                     <div class="places" data-type="florist">花店</div>
+                    <div class="places" data-type="bakery">麵包店</div>
+                    <div class="places" data-type="pet_store">寵物店</div>
                     <div class="places" data-type="hardware_store">五金鋪</div>
                     <div class="places" data-type="furniture_store">傢私鋪</div>
                     <div class="places" data-type="electronic_store">電器鋪</div>
+                    <div class="places" data-type="accounting">會計</div>
                 </div>
             </div>
 
@@ -73,7 +79,7 @@
             <div class="places-type">
                 <div class="places-head">
                     <i class="fas fa-bars"></i>&nbsp;
-                    <label>公共設施</label>
+                    <label>公共設施 及 文娛場所</label>
                 </div>
                 <input type="checkbox">
 
@@ -82,6 +88,11 @@
                     <div class="places" data-type="dog_park">狗公園</div>
                     <div class="places" data-type="beach">泳灘</div>
                     <div class="places" data-type="post_office">郵政局</div>
+                    <div class="places" data-type="library">圖書館</div>
+                    <div class="places">社區會堂</div>
+                    <div class="places" data-type="museum">博物館</div>
+                    <div class="places" data-type="movie_theater">戲院</div>
+                    <div class="places">大會堂</div>
                 </div>
             </div>
 
@@ -94,7 +105,7 @@
 
                 <div class="places-menu">
                     <div class="places" data-type="stadium">體育館</div>
-                    <div class="places" data-type="swimming pool">游泳池</div>
+                    <div class="places" data-type="swimming_pool">游泳池</div>
                     <div class="places" data-type="足球場">足球場</div>
                     <div class="places" data-type="籃球場">籃球場</div>
                     <div class="places" data-type="欖球場">欖球場</div>
@@ -106,55 +117,28 @@
             <div class="places-type">
                 <div class="places-head">
                     <i class="fas fa-bars"></i>&nbsp;
-                    <label>文娛場所</label>
+                    <label>專業服務</label>
                 </div>
                 <input type="checkbox">
 
                 <div class="places-menu">
-                    <div class="places" data-type="library">圖書館</div>
-                    <div class="places">社區會堂</div>
-                    <div class="places" data-type="museum">博物館</div>
-                    <div class="places" data-type="movie_theater">戲院</div>
-                    <div class="places">大會堂</div>
                 </div>
             </div>
 
             <div class="places-type">
                 <div class="places-head">
                     <i class="fas fa-bars"></i>&nbsp;
-                    <label>連鎖餐廳</label>
-                </div>
-                <input type="checkbox">
-
-                <div class="places-menu">
-                    <div class="places" data-query="Mcdonald">麥當勞</div>
-                    <div class="places" data-query="KFC">KFC</div>
-                    <div class="places" data-query="Starbucks">Starbucks</div>
-                </div>
-            </div>
-
-            <div class="places-type">
-                <div class="places-head">
-                    <i class="fas fa-bars"></i>&nbsp;
-                    <label>旅遊</label>
+                    <label>旅遊 及 其他</label>
                 </div>
                 <input type="checkbox">
 
                 <div class="places-menu">
                     <div class="places" data-type="tourist_attraction">旅遊勝地</div>
                     <div class="places" data-type="lodging">住宿</div>
-                </div>
-            </div>
-
-            <div class="places-type">
-                <div class="places-head">
-                    <i class="fas fa-bars"></i>&nbsp;
-                    <label>其他</label>
-                </div>
-                <input type="checkbox">
-
-                <div class="places-menu">
                     <div class="places" data-query="atm">ATM機</div>
+                    <div class="places" data-query="Mcdonald">麥當勞</div>
+                    <div class="places" data-query="KFC">KFC</div>
+                    <div class="places" data-query="Starbucks">Starbucks</div>
                     <div class="places" data-query="embassy">大使館</div>
                 </div>
             </div>

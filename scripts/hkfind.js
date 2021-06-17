@@ -10,6 +10,9 @@ const resultArea = document.getElementById("result-area");
 const viewToggle = document.querySelector(".view-toggle");
 const focusStartBtn = document.getElementById("focus-start");
 const searchAgainBtn = document.getElementById("search-again");
+const inputLocation = document.getElementById('autocomplete');
+const saveStartOption = localStorage.getItem('save-start-location');
+const startLocationCheckbox = document.getElementById("save-start");
 
 
 
@@ -70,6 +73,22 @@ let addMarker = function(placeInfo, styleIndex){
 
 // Create the places services
 service = new google.maps.places.PlacesService(map);
+
+// Read localStorage
+let initLocalStorage = function(){
+    // Checkbox reflect saved preference
+    startLocationCheckbox.checked = saveStartOption === "Y" ? true : false;
+
+    // Set auto complete value to last remembered value (if enabled)
+    if(saveStartOption === "Y"){
+        // update initial starting position to browser saved address
+        inputLocation.value = localStorage.getItem('start-location') || "";
+    } else {
+        // Clear memory if saving is not enabled
+        localStorage.setItem('start-location', "");
+    }
+}()
+
 
 
 
@@ -180,13 +199,14 @@ function searchButtonPressed(){
     
     // Engage the search
     startPlacesSearch();
+    updateLocalStorage();
     loadingStart(resultArea);
 }
 
 // Show the submit button when user scrolled to part B of the form
 document.addEventListener('scroll',function(){
     let currentScrollY = document.documentElement.scrollTop;
-    let triggerY = window.innerHeight*0.8;
+    let triggerY = window.innerHeight*0.5;
 
     if(currentScrollY > triggerY){ searchBtn.classList.remove('hidden'); } 
     else { searchBtn.classList.add('hidden'); }
@@ -289,3 +309,23 @@ function displayResult(placeInfo, index){
     results.push(result);
     resultArea.appendChild(result);
 }
+
+
+
+
+/* localStorage Management */
+// update the input field localStorage whenever a search is submitted
+function updateLocalStorage(){
+    if(localStorage.getItem('save-start-location') === "Y"){
+        localStorage.setItem('start-location', inputLocation.value);
+    }
+}
+
+// Toggle to remember start location
+startLocationCheckbox.addEventListener('change', () => {
+    if(startLocationCheckbox.checked){
+        localStorage.setItem('save-start-location', "Y");
+    } else {
+        localStorage.setItem('save-start-location', "N");
+    }
+})
