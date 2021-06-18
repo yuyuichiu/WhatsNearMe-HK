@@ -373,20 +373,24 @@ body{
         width: 100vw;
         height: auto;
         max-height: 90vh;
-        overflow: visible;
+        overflow: auto;
         transition: max-height 0.3s linear;
     }
 
     #result-area.hidden{
-        max-height: 0px;
+        max-height: 24px;
+    }
+
+    .status{
+        margin-top: 24px;
     }
 
     .view-toggle{
         display: block;
         position: absolute;
-        top: -24px;
+        top: 0px;
         left: 50vw;
-        transform: translate(-50%,0);
+        transform: translate(-50%,0px);
         width: 200px;
         height: 24px;
         background-color: var(--darker-color);
@@ -407,5 +411,9 @@ body{
     .result-action > span {
         padding: 3px 10px;
         font-size: 18px;
+    }
+
+    .places-menu{
+        justify-content: space-around;
     }
 }

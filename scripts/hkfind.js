@@ -113,9 +113,10 @@ function toggleMenu(target){
 // Event listener for each place types, open the first one by default
 menuTogglers.forEach((toggler) => { 
     toggler.addEventListener('change', function(){ toggleMenu(this) })
+    // Expand all cards initially
+    toggler.checked = true;
+    toggleMenu(toggler);
 });
-[...menuTogglers].slice(0,1)[0].checked = true;
-toggleMenu([...menuTogglers].slice(0,1)[0]);
 
 
 // When user select the place target, update active class & query data
