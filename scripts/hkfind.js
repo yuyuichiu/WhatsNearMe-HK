@@ -18,8 +18,6 @@ const startLocationCheckbox = document.getElementById("save-start");
 
 
 
-
-
 /* Initial setups */
 // Implement Auto Complete into the starting location input field
 let initAutoComplete = function(){
@@ -64,6 +62,7 @@ let addMarker = function(placeInfo, styleIndex){
             className: "map-marker",
         },
         animation: google.maps.Animation.DROP,
+        zIndex: styleIndex === 1 ? 3 : styleIndex === 2 ? 2 : 1,
     });
 
     newMarker.addListener("click", () => {
@@ -110,12 +109,14 @@ function toggleMenu(target){
     }
 }
 
-// Event listener for each place types, open the first one by default
-menuTogglers.forEach((toggler) => { 
+// Event listener for each place types, open menu initially
+menuTogglers.forEach((toggler, index) => { 
     toggler.addEventListener('change', function(){ toggleMenu(this) })
-    // Expand all cards initially
+    // Expand all cards initially (only show 1st if user is on mobile)
     toggler.checked = true;
-    toggleMenu(toggler);
+    if((window.innerHeight >= 600 && window.innerWidth >= 800) || index < 1){
+        toggleMenu(toggler);
+    }
 });
 
 
@@ -183,6 +184,12 @@ function loadingEnd(targetElement){
     targetElement.querySelector(".loading").remove();
 }
 
+// The back to top button
+const goTopBtn = document.getElementById('backtotop');
+goTopBtn.addEventListener('click', () => {
+    window.scrollTo(0,0);
+});
+
 // The submit button
 searchBtn.addEventListener('click', searchButtonPressed);
 document.addEventListener('keydown', (e) => {
@@ -211,9 +218,14 @@ function searchButtonPressed(){
 document.addEventListener('scroll',function(){
     let currentScrollY = document.documentElement.scrollTop;
     let triggerY = window.innerHeight*0.5;
+    const naviBtn = document.querySelectorAll(".navi-btn");
 
-    if(currentScrollY > triggerY){ searchBtn.classList.remove('hidden'); } 
-    else { searchBtn.classList.add('hidden'); }
+    if(currentScrollY > triggerY){
+        naviBtn.forEach((btn) => { btn.classList.remove('hidden') })
+    } 
+    else {
+        naviBtn.forEach((btn) => { btn.classList.add('hidden') })
+    }
 })
 
 
@@ -235,6 +247,11 @@ function startPlacesSearch(){
                 // Failure cases
                 console.log("Something went wrong: " + info.status);
                 console.log(info);
+                loadingEnd(resultArea);
+                let result = document.createElement('div');
+
+                // Display error message
+                displayErrorMessage();
                 return
             }
 
@@ -265,7 +282,6 @@ function searchNearbyPlaces(coord){
     }, function(output){
         if(!output.length){
             console.log("ZERO RESULTS AT PLACE SEARCH");
-            loadingEnd(resultArea);
             return
         }
 
@@ -313,6 +329,18 @@ function displayResult(placeInfo, index){
 
     results.push(result);
     resultArea.appendChild(result);
+}
+
+// Part C2: Display error message to result
+function displayErrorMessage(){
+    let error = document.createElement('div');
+    error.classList.add('result');
+    error.innerHTML = `
+        <div class="result-name" style="text-align: center;">沒有搜尋結果... (. _ .)</div>
+        <div>可能係地址打錯/無效，或者係揾唔到地方。試下改一改搜尋？</div>
+    `;
+
+    resultArea.appendChild(error);
 }
 
 

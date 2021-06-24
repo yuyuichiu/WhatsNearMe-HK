@@ -65,16 +65,20 @@ body{
 
 .local-save-field{
     display: flex;
+    width: 85vw;
+    max-width: 1000px;
+    flex-wrap: wrap;
     margin: 3px 0;
     align-items: center;
     justify-content: flex-start;
 }
 
 .local-save-field > label{
-    padding-left: 5px;
+    padding-left: 7px;
 }
 
 .local-save-field > input[type="checkbox"]{
+    margin-left: 3px;
     width: 16px;
     height: 16px;
 }
@@ -87,6 +91,11 @@ body{
     padding: 3px 5px;
     margin-right: 5px;
     font-family: inherit;
+}
+
+.credit{
+    position: absolute;
+    top: 10px ;
 }
 
 /* Part B: Select target facilities type */
@@ -220,12 +229,11 @@ body{
 }
 
 /* The submit button */
-#search{
+.navi-btn{
     position: fixed;
-    bottom: 15px;
-    right: 20px;
     background: inherit;
     font-family: inherit;
+    bottom: 15px;
     color: var(--darker-color);
     border: 3px solid var(--darker-color);
     border-radius: 5px;
@@ -234,7 +242,19 @@ body{
     transition: all ease 0.5s;
 }
 
-#search.hidden{
+.navi-btn.left{
+    left: 20px;
+}
+
+.navi-btn.right{
+    right: 20px;
+}
+
+.navi-btn.left.hidden{
+    left: -200px;
+}
+
+.navi-btn.right.hidden{
     right: -200px;
 }
 
@@ -398,6 +418,10 @@ body{
         color: white;
         cursor: pointer;
         z-index: 5;
+    }
+
+    .navi-btn{
+        padding: 10px 30px;
     }
 
     .result-address{

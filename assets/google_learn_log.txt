@@ -1,3 +1,13 @@
+24/6/2021:
+-- added back button
+-- updated places menu (minor adjustments)
+-- fixed marker z-index issue
+-- place menu now initially show less on mobile mode
+-- Checked localstorage works with mobile
+-- Added error message (need better design)
+
+forEach((item, index, array) => { ... })
+
 15/6/2021:
 << Scroll to specific location >>
     Method:
