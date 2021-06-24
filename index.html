@@ -22,12 +22,13 @@
             <h2>第一步：選擇出發地點</h2>
             <div class="input-field">
                 <input type="text" id="autocomplete" placeholder="請選擇你的出發地點（中英地址皆可）">
-                <i class="fas fa-map-marker-alt locate"></i>
             </div>
             <div class="local-save-field">
                 <input type="checkbox" id="save-start">
                 <label for="save-start">於瀏覽器記住上次出發地點</label>
             </div>
+
+            <div class="credit">Credit to: <a href="https://developers.google.com/maps" target="_blank">Google Map API</a></div>
         </div>
 
         <div class="part-two">
@@ -42,6 +43,7 @@
                 <input type="checkbox">
 
                 <div class="places-menu">
+                    <div class="places" data-type="shopping_mall">商場</div>
                     <div class="places" data-type="bank">銀行</div>
                     <div class="places" data-type="街市">街市</div>
                     <div class="places" data-type="supermarket">超級市場</div>
@@ -61,6 +63,7 @@
                     <div class="places" data-type="bicycle_store">單車鋪</div>
                     <div class="places" data-type="藥房">藥房</div>
                     <div class="places" data-type="drugstore|pharmacy">藥房及藥行</div>
+                    <div class="places" data-query="HKTV Mall">HKTV Mall門店</div>
                 </div>
             </div>
 
@@ -72,10 +75,11 @@
                 <input type="checkbox">
 
                 <div class="places-menu">
+                    <div class="places" data-type="restaurant">餐廳</div>
                     <div class="places" data-type="doctor">診所</div>
                     <div class="places" data-type="dentist">牙醫診所</div>
                     <div class="places" data-type="beauty_salon">美容中心</div>
-                    <div class="places" data-type="tutor">補習</div>
+                    <!-- <div class="places" data-type="tutor">補習</div> -->
                     <div class="places" data-type="internet_service_provider">電信商</div>
                     <div class="places" data-type="plumber">通渠</div>
                     <div class="places" data-type="pest_control">滅蟲</div>
@@ -147,7 +151,7 @@
                 <input type="checkbox">
 
                 <div class="places-menu">
-                    <div class="places" data-type="tourist_attraction">旅遊勝地</div>
+                    <div class="places" data-type="tourist_attraction">觀光去處</div>
                     <div class="places" data-type="lodging">住宿</div>
                     <div class="places" data-query="Mcdonald">麥當勞</div>
                     <div class="places" data-query="KFC">KFC</div>
@@ -157,7 +161,8 @@
             </div>
         </div>
 
-        <button id="search" class="hidden">開始搜索</button>
+        <button id="backtotop" class="navi-btn left hidden">更改地點</button>
+        <button id="search" class="navi-btn right hidden">開始搜索</button>
     </div>
 
     <div class="ui-container">
