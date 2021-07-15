@@ -121,7 +121,9 @@ menuTogglers.forEach((toggler, index) => {
 
 
 // When user select the place target, update active class & query data
-function getTargetQuery(target){
+function getQueryBySelection(target){
+    if(customQuery.value || !target) return;
+
     // Display active choice
     typeOptions.forEach((option) => {
         option.classList.remove('active');
@@ -129,7 +131,7 @@ function getTargetQuery(target){
     target.classList.add('active');
     document.getElementById("current-choice").innerText = `目前選擇：${target.innerText}`
 
-    // Update Query
+    // Query input by selection
     let targetQuery = target.dataset.query;
     query = !targetQuery ? target.innerText : encodeURIComponent(targetQuery);
 
@@ -137,9 +139,26 @@ function getTargetQuery(target){
     queryType = !targetPlaceType ? "" : targetPlaceType;
 }
 
+function getQueryByCustomInput(){
+    if(!customQuery.value) {
+        getQueryBySelection(document.querySelector(".places.active"));
+        document.getElementById("current-choice").innerText = `目前選擇：${'_'}`
+        return;
+    }
+
+    query = customQuery.value;
+    queryType = customQuery.value;
+    document.getElementById("current-choice").innerText = `目前選擇：${customQuery.value}`
+}
+
 typeOptions.forEach((option) => {
-    option.addEventListener('click', function(){ getTargetQuery(this) })
+    option.addEventListener('click', function(){ getQueryBySelection(this) })
 })
+
+const customQuery = document.getElementById("custom-query");
+customQuery.addEventListener('input', function() { getQueryByCustomInput() })
+
+
 
 // Toggle ON/OFF of visibility of the result bar (mobile)
 viewToggle.addEventListener('click', toggleResult);
