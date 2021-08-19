@@ -135,11 +135,15 @@ body{
     display: flex;
     flex-wrap: wrap;
     height: auto;
-    max-height: 0px;
+    max-height: 1000px;
     width: 90vw;
     overflow: hidden;
     background-color: var(--soft-color);
-    transition: max-height 0.35s ease;
+    transition: max-height 0.35s cubic-bezier(0, 1, 0, 1);
+}
+
+.places-menu.hide {
+    max-height: 0px;
 }
 
 .places{
@@ -406,7 +410,7 @@ body{
         bottom: 0;
         width: 100vw;
         height: auto;
-        max-height: 90vh;
+        max-height: 75vh;
         overflow: auto;
         transition: max-height 0.3s linear;
     }
@@ -421,8 +425,7 @@ body{
 
     .view-toggle{
         display: block;
-        position: absolute;
-        top: 0px;
+        position: fixed;
         left: 50vw;
         transform: translate(-50%,0px);
         width: 200px;
@@ -432,6 +435,11 @@ body{
         color: white;
         cursor: pointer;
         z-index: 5;
+        transition: all 0.3s linear;
+    }
+
+    #result-area.hidden .view-toggle{
+        width: 100vw;
     }
 
     .navi-btn{

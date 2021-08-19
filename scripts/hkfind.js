@@ -1,125 +1,29 @@
-let map, autocomplete, parsedAddress, service, query, queryType, coordinates;
+import initAutoComplete from './initial-setup/initAutoComplete.js'
+import initMap from './initial-setup/initMap.js'
+import initEventListeners from './initial-setup/initEventListeners.js'
+import { readStartLocationLocalStorage, updateLocationLocalStorage } from './localStorage/locationLocalStorage.js'
+import { mapAddMarker, mapClearMarkers } from './google-map/google-map.js'
+
+let parsedAddress, query, queryType, coordinates;
 let results = [];
-let markers = [];
+let mapMarkers = [];
 
 const searchForm = document.getElementById('search-form');
-const searchBtn = document.getElementById('search');
-const menuTogglers = document.querySelectorAll(".part-two [type='checkbox']");
-const typeOptions = [...document.querySelectorAll(".places")];
 const resultArea = document.getElementById("result-area");
-const viewToggle = document.querySelector(".view-toggle");
-const focusStartBtn = document.getElementById("focus-start");
 const searchAgainBtn = document.getElementById("search-again");
-const inputLocation = document.getElementById('autocomplete');
-const saveStartOption = localStorage.getItem('save-start-location');
-const startLocationCheckbox = document.getElementById("save-start");
-
-
-
+const customQuery = document.getElementById("custom-query");
 
 
 /* Initial setups */
-// Implement Auto Complete into the starting location input field
-let initAutoComplete = function(){
-    // First parameter, element to add autocomplete functionality
-    let input = document.getElementById("autocomplete");
-    // Second parameter, configurations
-    let options = {
-        type: ['establishment'],
-        // restrict the country of potential results
-        componentRestrictions: {'country' : ["hk"] },
-        fields: ['place_id', 'geometry', 'name']
-    };
+const autocomplete = initAutoComplete(document.getElementById("autocomplete"));  // Google auto complete API
+const map = initMap(document.getElementById("map"));                             // Google map setup
+const service = new google.maps.places.PlacesService(map);                       // Google places API service
 
-    // The autocomplete object
-    autocomplete = new google.maps.places.Autocomplete(input,options);       
-
-    autocomplete.addListener('place_changed',() => {
-        // Scroll down once user has chosen a location through autocomplete
-        window.scrollTo(0,window.innerHeight);
-    })
-}()
-
-// Construct a google map to our map element
-let initMap = function(){
-    map = new google.maps.Map(document.getElementById("map"),{
-        center: { lat: 22.2860, lng: 114.1915 },
-        zoom: 15,
-    })
-}()
-
-// Function to create add a marker to map
-let addMarker = function(placeInfo, styleIndex){
-    let iconStyles = ["assets/pin-start.png","assets/pin-green.png","assets/pin-orange.png","assets/pin-pink.png"]
-    let targetIcon = iconStyles[styleIndex];
-
-    let newMarker = new google.maps.Marker({
-        position: placeInfo.geometry,
-        map: map,
-        icon: targetIcon,
-        label: {
-            text: placeInfo.name,
-            className: "map-marker",
-        },
-        animation: google.maps.Animation.DROP,
-        zIndex: styleIndex === 1 ? 3 : styleIndex === 2 ? 2 : 1,
-    });
-
-    newMarker.addListener("click", () => {
-        // Redirects and opens a new tab of the link
-        window.open(placeInfo.url,"_blank");
-    });
-
-    markers.push(newMarker);
-}
-
-// Create the places services
-service = new google.maps.places.PlacesService(map);
-
-// Read localStorage
-let initLocalStorage = function(){
-    // Checkbox reflect saved preference
-    startLocationCheckbox.checked = saveStartOption === "Y" ? true : false;
-
-    // Set auto complete value to last remembered value (if enabled)
-    if(saveStartOption === "Y"){
-        // update initial starting position to browser saved address
-        inputLocation.value = localStorage.getItem('start-location') || "";
-    } else {
-        // Clear memory if saving is not enabled
-        localStorage.setItem('start-location', "");
-    }
-}()
-
-
-
-
+initEventListeners();
+readStartLocationLocalStorage();
 
 
 /* Form UI functionality */
-
-// places menu show/hide (The first one is opened initially)
-function toggleMenu(target){
-    let menu = target.nextElementSibling;
-    // adjust maxHeight for proper transition animation
-    if(target.checked){
-        menu.style.maxHeight = menu.scrollHeight + "px";
-    } else {
-        menu.style.maxHeight = 0;
-    }
-}
-
-// Event listener for each place types, open menu initially
-menuTogglers.forEach((toggler, index) => { 
-    toggler.addEventListener('change', function(){ toggleMenu(this) })
-    // Expand all cards initially (only show 1st if user is on mobile)
-    toggler.checked = true;
-    if((window.innerHeight >= 600 && window.innerWidth >= 800) || index < 1){
-        toggleMenu(toggler);
-    }
-});
-
-
 // When user select the place target, update active class & query data
 function getQueryBySelection(target){
     if(customQuery.value || !target) return;
@@ -149,31 +53,16 @@ function getQueryByCustomInput(){
     query = customQuery.value;
     queryType = customQuery.value;
     document.getElementById("current-choice").innerText = `目前選擇：${customQuery.value}`
+    document.querySelector(".places.active") && document.querySelector(".places.active").classList.remove('active');
 }
 
-typeOptions.forEach((option) => {
-    option.addEventListener('click', function(){ getQueryBySelection(this) })
-})
+const typeOptions = [...document.querySelectorAll(".places")];
+typeOptions.forEach((option) => { option.addEventListener('click', function(){ getQueryBySelection(this) }) })
 
-const customQuery = document.getElementById("custom-query");
 customQuery.addEventListener('input', function() { getQueryByCustomInput() })
 
-
-
-// Toggle ON/OFF of visibility of the result bar (mobile)
-viewToggle.addEventListener('click', toggleResult);
-function toggleResult(){
-    if(resultArea.classList.contains('hidden')){
-        viewToggle.innerHTML = `<i class="fas fa-chevron-down"></i>`;
-    } else {
-        viewToggle.innerHTML = `<i class="fas fa-chevron-up"></i>`;
-    }
-
-    resultArea.classList.toggle('hidden');
-}
-
 // Make map focus to start location when focus-start is clicked
-focusStartBtn.addEventListener('click',() => {
+document.getElementById("focus-start").addEventListener('click',() => {
     map.setCenter(coordinates);
     map.setZoom(15);
 });
@@ -182,9 +71,8 @@ focusStartBtn.addEventListener('click',() => {
 searchAgainBtn.addEventListener('click', () => {
     // Clear current search result & markers
     autocomplete
-    resultArea.querySelectorAll('.result').forEach((result) => { result.remove(); })
-    markers.forEach((mark) => { mark.setMap(null); });
-    markers = [];
+    resultArea.querySelectorAll('.result').forEach((result) => { result.remove() })
+    mapMarkers = mapClearMarkers(mapMarkers);
 
     // Show the form
     searchForm.style.opacity = 1;
@@ -195,7 +83,6 @@ searchAgainBtn.addEventListener('click', () => {
 function loadingStart(targetElement){
     let displayLoading = document.createElement('div');
     displayLoading.classList.add('loading');
-
     targetElement.appendChild(displayLoading);
 }
 
@@ -203,16 +90,10 @@ function loadingEnd(targetElement){
     targetElement.querySelector(".loading").remove();
 }
 
-// The back to top button
-const goTopBtn = document.getElementById('backtotop');
-goTopBtn.addEventListener('click', () => {
-    window.scrollTo(0,0);
-});
-
 // The submit button
-searchBtn.addEventListener('click', searchButtonPressed);
+document.getElementById('search').addEventListener('click', searchButtonPressed);
 document.addEventListener('keydown', (e) => {
-    if(e.key === "Enter" && !searchBtn.classList.contains('hidden')){
+    if(e.key === "Enter" && !document.getElementById('search').classList.contains('hidden')){
         searchButtonPressed(); }
 })
 
@@ -229,25 +110,9 @@ function searchButtonPressed(){
     
     // Engage the search
     startPlacesSearch();
-    updateLocalStorage();
+    updateLocationLocalStorage();
     loadingStart(resultArea);
 }
-
-// Show the submit button when user scrolled to part B of the form
-document.addEventListener('scroll',function(){
-    let currentScrollY = document.documentElement.scrollTop;
-    let triggerY = window.innerHeight*0.5;
-    const naviBtn = document.querySelectorAll(".navi-btn");
-
-    if(currentScrollY > triggerY){
-        naviBtn.forEach((btn) => { btn.classList.remove('hidden') })
-    } 
-    else {
-        naviBtn.forEach((btn) => { btn.classList.add('hidden') })
-    }
-})
-
-
 
 
 
@@ -260,28 +125,27 @@ function startPlacesSearch(){
 
     // Translate address to coordinates through Geocoding API
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${parsedAddress}&components=country:hk&key=AIzaSyBRzIkLqS59M_6neW0HHrGfv_eFdrJqK2E`)
-        .then(data => data.json())
-        .then((info) => {
-            if(info.status !== "OK"){
-                // Failure cases
-                console.log("Something went wrong: " + info.status);
-                console.log(info);
-                loadingEnd(resultArea);
-                let result = document.createElement('div');
+    .then(data => data.json())
+    .then((info) => {
+        if(info.status !== "OK"){
+            console.log(info);
+            throw new Error(info.error_message);
+        }
 
-                // Display error message
-                displayErrorMessage();
-                return
-            }
+        coordinates = info.results[0].geometry.location;
+        // Adjust center of the map
+        map.setCenter(coordinates);
+        mapAddMarker({ name: '起點', geometry: coordinates }, 0, mapMarkers, map);
 
-            coordinates = info.results[0].geometry.location;
-            // Adjust center of the map
-            map.setCenter(coordinates);
-            addMarker({ name: '起點', geometry: coordinates },0);
+        // Goes on to part B -- the Search
+        searchNearbyPlaces(coordinates);
+    }).catch((error) => {
+        // Failure cases
+        console.log("Something went wrong: " + error.message);
 
-            // Goes on to part B -- the Search
-            searchNearbyPlaces(coordinates);
-        })
+        loadingEnd(resultArea);
+        displayErrorMessage(error.message);   
+    })
 }
 
 // Part B: Search nearby places based on search query provided
@@ -290,7 +154,6 @@ function searchNearbyPlaces(coord){
     // Guard Cases
     if(!query && !queryType){ return }
     if(!coord.lat || !coord.lng){ return }
-    console.log("Search Engaged Successfully")
 
     service.nearbySearch({
         location: coord,
@@ -300,26 +163,26 @@ function searchNearbyPlaces(coord){
         rankBy: google.maps.places.RankBy.DISTANCE,
     }, function(output){
         if(!output.length){
-            console.log("ZERO RESULTS AT PLACE SEARCH");
+            loadingEnd(resultArea);
+            displayErrorMessage();
             return
         }
 
-        let result = output.slice(0,3);
+        let result = output.slice(0,5);
 
-        for(let i = 0; i < 3; i++){
-            // Collect place information
+        result.forEach((place, idx) => {
+            // Collect place information & add markers dynamically
             let placeInfo = {
-                name: result[i].name,
-                id: result[i].place_id,
-                address: result[i].vicinity,
-                geometry: result[i].geometry.location.toJSON(),
+                name: place.name,
+                id: place.place_id,
+                address: place.vicinity,
+                geometry: place.geometry.location.toJSON(),
             }
             placeInfo.url = `https://www.google.com/maps/dir/?api=1&origin=${parsedAddress}&destination=${placeInfo.geometry.lat}%2C${placeInfo.geometry.lng}&destination_place_id=${placeInfo.id}&travelmode=transit`;
 
-            // Create marker for that place with collected information
-            addMarker(placeInfo, i+1);
-            displayResult(placeInfo, i+1);
-        }
+            mapAddMarker(placeInfo, idx+1, mapMarkers, map);
+            displayResult(placeInfo, idx+1);
+        });
         loadingEnd(resultArea);
     })
 }
@@ -330,7 +193,7 @@ function displayResult(placeInfo, index){
     result.classList.add('result');
     result.innerHTML = `
         <div class="result-name">${index}. ${placeInfo.name}</div>
-        <div class="result-address"><i class="fas fa-map-marker-alt" style="color: ${[,'#E9B821','#E029AB'][index-1]};"></i>${placeInfo.address}</div>
+        <div class="result-address"><i class="fas fa-map-marker-alt" style="color: ${[,'#E9B821','#E029AB','#3387e6','#e234f2'][index-1]};"></i>${placeInfo.address}</div>
         <div class="result-toolbar">
             <div class="result-viewmap"><i class="fas fa-street-view"></i>移至坐標</div>
             <a href="${placeInfo.url}" class="result-toGoogleMap" target="_blank">
@@ -341,9 +204,8 @@ function displayResult(placeInfo, index){
     `;
 
     result.querySelector(".result-viewmap").addEventListener('click', function(){
-        toggleResult();
         map.setCenter(placeInfo.geometry);
-        map.setZoom(18);
+        map.setZoom(16);
     });
 
     results.push(result);
@@ -351,33 +213,16 @@ function displayResult(placeInfo, index){
 }
 
 // Part C2: Display error message to result
-function displayErrorMessage(){
+function displayErrorMessage(apiErrorMsg = false){
     let error = document.createElement('div');
     error.classList.add('result');
+    let errorTitle = apiErrorMsg ? `伺服器端出現問題: ${apiErrorMsg}` : `沒有《${query}》的搜尋結果...`;
+    let errorDescription = apiErrorMsg ? `請電郵問題至yuichiuyu1915@gmail.com (俞先生)` : `可能係地方名打錯/無效，或者係揾唔到地方。試下改一改搜尋？`;
+
     error.innerHTML = `
-        <div class="result-name" style="text-align: center;">沒有搜尋結果... (. _ .)</div>
-        <div>可能係地址打錯/無效，或者係揾唔到地方。試下改一改搜尋？</div>
+        <div class="result-name" style="text-align: center;">${errorTitle}</div>
+        <div>${errorDescription}</div>
     `;
 
     resultArea.appendChild(error);
 }
-
-
-
-
-/* localStorage Management */
-// update the input field localStorage whenever a search is submitted
-function updateLocalStorage(){
-    if(localStorage.getItem('save-start-location') === "Y"){
-        localStorage.setItem('start-location', inputLocation.value);
-    }
-}
-
-// Toggle to remember start location
-startLocationCheckbox.addEventListener('change', () => {
-    if(startLocationCheckbox.checked){
-        localStorage.setItem('save-start-location', "Y");
-    } else {
-        localStorage.setItem('save-start-location', "N");
-    }
-})
